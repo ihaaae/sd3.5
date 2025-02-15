@@ -430,7 +430,7 @@ class SDXLClipGTokenizer(SDTokenizer):
 
 class SD3Tokenizer:
     def __init__(self):
-        clip_tokenizer = CLIPTokenizer.from_pretrained("openai/clip-vit-large-patch14")
+        clip_tokenizer = CLIPTokenizer.from_pretrained("openai/clip-vit-large-patch14", cache_dir="/root/autodl-tmp", use_safetensors=True)
         self.clip_l = SDTokenizer(tokenizer=clip_tokenizer)
         self.clip_g = SDXLClipGTokenizer(clip_tokenizer)
         self.t5xxl = T5XXLTokenizer()
@@ -581,7 +581,7 @@ class T5XXLTokenizer(SDTokenizer):
     def __init__(self):
         super().__init__(
             pad_with_end=False,
-            tokenizer=T5TokenizerFast.from_pretrained("google/t5-v1_1-xxl"),
+            tokenizer=T5TokenizerFast.from_pretrained("google/t5-v1_1-xxl", cache_dir="/root/autodl-tmp", use_safetensors=True),
             has_start_token=False,
             pad_to_max_length=False,
             max_length=99999999,

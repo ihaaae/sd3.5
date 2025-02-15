@@ -82,7 +82,7 @@ CLIPG_CONFIG = {
 class ClipG:
     def __init__(self, model_folder: str, device: str = "cpu"):
         with safe_open(
-            f"{model_folder}/clip_g.safetensors", framework="pt", device="cpu"
+            f"/root/autodl-tmp/AI-ModelScope/stable-diffusion-3___5-large/text_encoders/clip_g.safetensors", framework="pt", device="cpu"
         ) as f:
             self.model = SDXLClipG(CLIPG_CONFIG, device=device, dtype=torch.float32)
             load_into(f, self.model.transformer, "", device, torch.float32)
@@ -100,7 +100,7 @@ CLIPL_CONFIG = {
 class ClipL:
     def __init__(self, model_folder: str):
         with safe_open(
-            f"{model_folder}/clip_l.safetensors", framework="pt", device="cpu"
+            f"/root/autodl-tmp/AI-ModelScope/stable-diffusion-3___5-large/text_encoders/clip_l.safetensors", framework="pt", device="cpu"
         ) as f:
             self.model = SDClipModel(
                 layer="hidden",
@@ -126,7 +126,7 @@ T5_CONFIG = {
 class T5XXL:
     def __init__(self, model_folder: str, device: str = "cpu", dtype=torch.float32):
         with safe_open(
-            f"{model_folder}/t5xxl.safetensors", framework="pt", device="cpu"
+            f"/root/autodl-tmp/AI-ModelScope/stable-diffusion-3___5-large/text_encoders/t5xxl_fp16.safetensors", framework="pt", device="cpu"
         ) as f:
             self.model = T5XXLModel(T5_CONFIG, device=device, dtype=dtype)
             load_into(f, self.model.transformer, "", device, dtype)
@@ -227,7 +227,7 @@ SEEDTYPE = "rand"
 # Actual model file path
 # MODEL = "models/sd3_medium.safetensors"
 # MODEL = "models/sd3.5_large_turbo.safetensors"
-MODEL = "models/sd3.5_large.safetensors"
+MODEL = "/root/autodl-tmp/AI-ModelScope/stable-diffusion-3___5-large/sd3.5_large.safetensors"
 # VAE model file path, or set None to use the same model file
 VAEFile = None  # "models/sd3_vae.safetensors"
 # Optional init image file path
@@ -573,6 +573,9 @@ def main(
     **kwargs,
 ):
     assert not kwargs, f"Unknown arguments: {kwargs}"
+    
+    os.environ["HF_HOME"] = "/path/to/your/cache/dir"
+    os.environ["HF_ENDPOINT"] = "https://hf-mirror.com" 
 
     config = CONFIGS.get(os.path.splitext(os.path.basename(model))[0], {})
     _shift = shift or config.get("shift", 3)
