@@ -430,7 +430,7 @@ class SD3Inferencer:
 
     def gen_image(
         self,
-        prompts=[PROMPT],
+        prompt,
         width=WIDTH,
         height=HEIGHT,
         steps=STEPS,
@@ -438,7 +438,6 @@ class SD3Inferencer:
         sampler=SAMPLER,
         seed=SEED,
         seed_type=SEEDTYPE,
-        out_dir=OUTDIR,
         controlnet_cond_image=CONTROLNET_COND_IMAGE,
         init_image=INIT_IMAGE,
         denoise=DENOISE,
@@ -460,34 +459,28 @@ class SD3Inferencer:
             )
         neg_cond = self.get_cond("")
         seed_num = None
-        pbar = tqdm(enumerate(prompts), total=len(prompts), position=0, leave=True)
-        for i, prompt in pbar:
-            for j in range(10):
-                if seed_type == "roll":
-                    seed_num = seed if seed_num is None else seed_num + 1
-                elif seed_type == "rand":
-                    seed_num = torch.randint(0, 100000, (1,)).item()
-                else:  # fixed
-                    seed_num = seed
-                conditioning = self.get_cond(prompt)
-                sampled_latent = self.do_sampling(
-                    latent,
-                    seed_num,
-                    conditioning,
-                    neg_cond,
-                    steps,
-                    cfg_scale,
-                    sampler,
-                    controlnet_cond,
-                    denoise if init_image else 1.0,
-                    skip_layer_config,
-                )
-                image = self.vae_decode(sampled_latent)
-                save_path = os.path.join(out_dir, f"{i+1}-{j+1}.png")
-                self.print(f"Saving to to {save_path}")
-                image.save(save_path)
-            self.print("Done")
 
+        if seed_type == "roll":
+            seed_num = seed if seed_num is None else seed_num + 1
+        elif seed_type == "rand":
+            seed_num = torch.randint(0, 100000, (1,)).item()
+        else:  # fixed
+            seed_num = seed
+        conditioning = self.get_cond(prompt)
+        sampled_latent = self.do_sampling(
+            latent,
+            seed_num,
+            conditioning,
+            neg_cond,
+            steps,
+            cfg_scale,
+            sampler,
+            controlnet_cond,
+            denoise if init_image else 1.0,
+            skip_layer_config,
+        )
+        image = self.vae_decode(sampled_latent)
+        return image
 
 CONFIGS = {
     "sd3.5_medium": {
