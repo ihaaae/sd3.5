@@ -6,11 +6,8 @@
 # Also can have
 # - `sd3_vae.safetensors` (holds the VAE separately if needed)
 
-import datetime
 import math
 import os
-import pickle
-import re
 
 import fire
 import numpy as np
