@@ -581,13 +581,7 @@ def main(
     _cfg = config.get("cfg", 5)
     _sampler = config.get("sampler", "dpmpp_2m")
 
-    if skip_layer_cfg:
-        skip_layer_config = CONFIGS.get(
-            os.path.splitext(os.path.basename(model))[0], {}
-        ).get("skip_layer_config", {})
-        cfg = skip_layer_config.get("cfg", cfg)
-    else:
-        skip_layer_config = {}
+    skip_layer_config = {}
 
     if controlnet_ckpt is not None:
         controlnet_config = CONFIGS.get(
