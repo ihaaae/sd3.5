@@ -527,13 +527,6 @@ CONFIGS = {
 def main(
     model=MODEL,
     out_dir=OUTDIR,
-    seed=SEED,
-    seed_type=SEEDTYPE,
-    width=WIDTH,
-    height=HEIGHT,
-    controlnet_cond_image=None,
-    init_image=INIT_IMAGE,
-    denoise=DENOISE,
     model_folder=MODEL_FOLDER,
     text_encoder_device="cpu",
 ):
@@ -566,18 +559,10 @@ def main(
 
     inferencer.gen_image(
         prompts,
-        width,
-        height,
         _steps,
         _cfg,
         _sampler,
-        seed,
-        seed_type,
         out_dir,
-        controlnet_cond_image,
-        init_image,
-        denoise,
-        skip_layer_config,
     )
 
 
