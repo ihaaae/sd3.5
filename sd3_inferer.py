@@ -244,9 +244,9 @@ class SD3Inferencer:
 
     def load(
         self,
-        model=MODEL,
+        model,
+        model_folder,
         shift=SHIFT,
-        model_folder: str = MODEL_FOLDER,
         text_encoder_device: str = "cpu",
         load_tokenizers: bool = True,
         verbose=False,
