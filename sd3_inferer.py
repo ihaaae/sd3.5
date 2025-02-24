@@ -9,7 +9,6 @@
 import math
 import os
 
-import fire
 import numpy as np
 import sd3_impls
 import torch
@@ -23,7 +22,6 @@ from sd3_impls import (
     SD3LatentFormat,
     SkipLayerCFGDenoiser,
 )
-from tqdm import tqdm
 
 #################################################################################################
 ### Wrappers for model parts
