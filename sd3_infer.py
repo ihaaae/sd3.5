@@ -500,12 +500,6 @@ class SD3Inferencer:
 
 
 CONFIGS = {
-    "sd3_medium": {
-        "shift": 1.0,
-        "steps": 50,
-        "cfg": 5.0,
-        "sampler": "dpmpp_2m",
-    },
     "sd3.5_medium": {
         "shift": 3.0,
         "steps": 50,
@@ -526,24 +520,6 @@ CONFIGS = {
         "sampler": "dpmpp_2m",
     },
     "sd3.5_large_turbo": {"shift": 3.0, "cfg": 1.0, "steps": 4, "sampler": "euler"},
-    "sd3.5_large_controlnet_blur": {
-        "shift": 3.0,
-        "steps": 60,
-        "cfg": 3.5,
-        "sampler": "euler",
-    },
-    "sd3.5_large_controlnet_canny": {
-        "shift": 3.0,
-        "steps": 60,
-        "cfg": 3.5,
-        "sampler": "euler",
-    },
-    "sd3.5_large_controlnet_depth": {
-        "shift": 3.0,
-        "steps": 60,
-        "cfg": 3.5,
-        "sampler": "euler",
-    },
 }
 
 
