@@ -222,9 +222,9 @@ SEED = 23
 SEEDTYPE = "rand"
 # SEEDTYPE = "roll"
 # Actual model file path
-# MODEL = "models/sd3_medium.safetensors"
-# MODEL = "models/sd3.5_large_turbo.safetensors"
 MODEL = "/root/autodl-tmp/AI-ModelScope/stable-diffusion-3___5-large/sd3.5_large.safetensors"
+# TextEncoder MODEL FOLDER
+MODEL_FOLDER = "/root/autodl-tmp/AI-ModelScope/stable-diffusion-3___5-large/text_encoders"
 # VAE model file path, or set None to use the same model file
 VAEFile = None  # "models/sd3_vae.safetensors"
 # Optional init image file path
@@ -237,8 +237,7 @@ DENOISE = 0.8
 OUTDIR = "outputs"
 # SAMPLER
 SAMPLER = "dpmpp_2m"
-# MODEL FOLDER
-MODEL_FOLDER = "models"
+
 
 
 class SD3Inferencer:
