@@ -221,10 +221,6 @@ SEED = 23
 # SEEDTYPE = "fixed"
 SEEDTYPE = "rand"
 # SEEDTYPE = "roll"
-# Actual model file path
-MODEL = "/root/autodl-tmp/AI-ModelScope/stable-diffusion-3___5-large/sd3.5_large.safetensors"
-# TextEncoder MODEL FOLDER
-MODEL_FOLDER = "/root/autodl-tmp/AI-ModelScope/stable-diffusion-3___5-large/text_encoders"
 # VAE model file path, or set None to use the same model file
 VAEFile = None  # "models/sd3_vae.safetensors"
 # Optional init image file path
@@ -233,11 +229,8 @@ INIT_IMAGE = None
 CONTROLNET_COND_IMAGE = None
 # If init_image is given, this is the percentage of denoising steps to run (1.0 = full denoise, 0.0 = no denoise at all)
 DENOISE = 0.8
-# Output file path
-OUTDIR = "outputs"
 # SAMPLER
 SAMPLER = "dpmpp_2m"
-
 
 
 class SD3Inferencer:
