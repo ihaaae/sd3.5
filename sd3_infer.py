@@ -585,14 +585,6 @@ def main(
         text_encoder_device,
     )
 
-    if isinstance(prompt, str):
-        if os.path.splitext(prompt)[-1] == ".txt":
-            with open(prompt, "r") as f:
-                prompts = [l.strip() for l in f.readlines()]
-        else:
-            prompts = [prompt]
-
-    sanitized_prompt = re.sub(r"[^\w\-\.]", "_", prompt)
     out_dir = os.path.join(
         out_dir,
         (
