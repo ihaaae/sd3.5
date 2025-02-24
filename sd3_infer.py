@@ -576,10 +576,10 @@ def main(
     os.environ["HF_ENDPOINT"] = "https://hf-mirror.com" 
 
     config = CONFIGS.get(os.path.splitext(os.path.basename(model))[0], {})
-    _shift = shift or config.get("shift", 3)
-    _steps = steps or config.get("steps", 50)
-    _cfg = cfg or config.get("cfg", 5)
-    _sampler = sampler or config.get("sampler", "dpmpp_2m")
+    _shift = config.get("shift", 3)
+    _steps = config.get("steps", 50)
+    _cfg = config.get("cfg", 5)
+    _sampler = config.get("sampler", "dpmpp_2m")
 
     if skip_layer_cfg:
         skip_layer_config = CONFIGS.get(
