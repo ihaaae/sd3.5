@@ -572,8 +572,6 @@ def main(
     text_encoder_device="cpu",
     **kwargs,
 ):
-    assert not kwargs, f"Unknown arguments: {kwargs}"
-    
     os.environ["HF_HOME"] = "/path/to/your/cache/dir"
     os.environ["HF_ENDPOINT"] = "https://hf-mirror.com" 
 
