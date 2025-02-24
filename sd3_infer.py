@@ -583,15 +583,6 @@ def main(
 
     skip_layer_config = {}
 
-    if controlnet_ckpt is not None:
-        controlnet_config = CONFIGS.get(
-            os.path.splitext(os.path.basename(controlnet_ckpt))[0], {}
-        )
-        _shift = shift or controlnet_config.get("shift", shift)
-        _steps = steps or controlnet_config.get("steps", steps)
-        _cfg = cfg or controlnet_config.get("cfg", cfg)
-        _sampler = sampler or controlnet_config.get("sampler", sampler)
-
     inferencer = SD3Inferencer()
 
     inferencer.load(
