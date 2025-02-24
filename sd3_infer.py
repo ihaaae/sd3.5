@@ -256,13 +256,13 @@ class SD3Inferencer:
     def load(
         self,
         model=MODEL,
-        vae=VAEFile,
         shift=SHIFT,
-        controlnet_ckpt=None,
         model_folder: str = MODEL_FOLDER,
         text_encoder_device: str = "cpu",
-        verbose=False,
         load_tokenizers: bool = True,
+        verbose=False,
+        vae=VAEFile,
+        controlnet_ckpt=None,
     ):
         self.verbose = verbose
         print("Loading tokenizers...")
@@ -280,7 +280,7 @@ class SD3Inferencer:
         print(f"Loading SD3 model {os.path.basename(model)}...")
         self.sd3 = SD3(model, shift, controlnet_ckpt, verbose, "cuda")
         print("Loading VAE model...")
-        self.vae = VAE(vae or model)
+        self.vae = VAE(model)
         print("Models loaded.")
 
     def get_empty_latent(self, batch_size, width, height, seed, device="cuda"):
@@ -580,12 +580,9 @@ def main(
 
     inferencer.load(
         model,
-        vae,
         _shift,
-        controlnet_ckpt,
         model_folder,
         text_encoder_device,
-        verbose,
     )
 
     if isinstance(prompt, str):
