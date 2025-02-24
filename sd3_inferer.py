@@ -6,8 +6,8 @@
 # Also can have
 # - `sd3_vae.safetensors` (holds the VAE separately if needed)
 
-import math
 import os
+import math
 
 import numpy as np
 import sd3_impls
@@ -120,6 +120,7 @@ T5_CONFIG = {
 
 class T5XXL:
     def __init__(self, model_folder: str, device: str = "cpu", dtype=torch.float32):
+        print(model_folder)
         with safe_open(
             f"{model_folder}/t5xxl_fp16.safetensors", framework="pt", device="cpu"
         ) as f:
@@ -429,11 +430,11 @@ class SD3Inferencer:
     def gen_image(
         self,
         prompt,
-        width=WIDTH,
-        height=HEIGHT,
         steps=STEPS,
         cfg_scale=CFG_SCALE,
         sampler=SAMPLER,
+        width=WIDTH,
+        height=HEIGHT,
         seed=SEED,
         seed_type=SEEDTYPE,
         controlnet_cond_image=CONTROLNET_COND_IMAGE,

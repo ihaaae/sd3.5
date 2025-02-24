@@ -1,7 +1,7 @@
 import os
 import torch
 from sd3_inferer import CONFIGS, SD3Inferencer
-import tqdm
+from tqdm import tqdm
 
 prompts = ["photo of group 19th century cult cultists in the dark forest by Diane Arbus and Louis Daguerre",
             "attractive justin bieber as a god. highly detailed painting by gaston bussiere, craig mullins, j. c. leyendecker 8 k",
@@ -72,7 +72,7 @@ if __name__ == "__main__":
 
     with torch.no_grad():
         inferencer = SD3Inferencer()
-        inferencer.load(MODEL, _shift, MODEL_FOLDER, text_encoder_device="cpu")
+        inferencer.load(MODEL, MODEL_FOLDER, _shift, text_encoder_device="cpu")
         pbar = tqdm(enumerate(prompts), total=len(prompts), position=0, leave=True)
         for i, prompt in pbar:
             for j in range(10):
