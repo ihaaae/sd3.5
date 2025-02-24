@@ -587,16 +587,7 @@ def main(
 
     out_dir = os.path.join(
         out_dir,
-        (
-            os.path.splitext(os.path.basename(model))[0]
-            + (
-                "_" + os.path.splitext(os.path.basename(controlnet_ckpt))[0]
-                if controlnet_ckpt is not None
-                else ""
-            )
-        ),
-        os.path.splitext(os.path.basename(sanitized_prompt))[0][:50]
-        + (postfix or datetime.datetime.now().strftime("_%Y-%m-%dT%H-%M-%S")),
+        "lexica",
     )
 
     os.makedirs(out_dir, exist_ok=False)
