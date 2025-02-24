@@ -6,13 +6,6 @@ Contains code for the text encoders (OpenAI CLIP-L/14, OpenCLIP bigG, Google T5-
 
 Note: this repo is a reference library meant to assist partner organizations in implementing SD3.5/SD3. For alternate inference, use [Comfy](https://github.com/comfyanonymous/ComfyUI).
 
-## Updates
-
-- Nov 26, 2024 : Released ControlNets for SD3.5-Large.
-- Oct 29, 2024 : Released inference code for SD3.5-Medium.
-- Oct 24, 2024 : Updated code license to MIT License.
-- Oct 22, 2024 : Released inference code for SD3.5-Large, Large-Turbo. Also works on SD3-Medium.
-
 ## Download
 
 Download the following models from HuggingFace into `models` directory:
@@ -43,55 +36,8 @@ hf_hub_download("stabilityai/stable-diffusion-3.5-controlnets", "sd3.5_large_con
 # Note: on windows use "python" not "python3"
 python3 -s -m venv .sd3.5
 source .sd3.5/bin/activate
-# or on windows: venv/scripts/activate
-python3 -s -m pip install -r requirements.txt
 ```
 
-## Run
-
-```sh
-# Generate a cat using SD3.5 Large model (at models/sd3.5_large.safetensors) with its default settings
-python3 sd3_infer.py --prompt "cute wallpaper art of a cat"
-# Or use a text file with a list of prompts, using SD3.5 Large
-python3 sd3_infer.py --prompt path/to/my_prompts.txt --model models/sd3.5_large.safetensors
-# Generate from prompt file using SD3.5 Large Turbo with its default settings
-python3 sd3_infer.py --prompt path/to/my_prompts.txt --model models/sd3.5_large_turbo.safetensors
-# Generate from prompt file using SD3.5 Medium with its default settings, at 2k resolution
-python3 sd3_infer.py --prompt path/to/my_prompts.txt --model models/sd3.5_medium.safetensors --width 1920 --height 1080
-# Generate from prompt file using SD3 Medium with its default settings
-python3 sd3_infer.py --prompt path/to/my_prompts.txt --model models/sd3_medium.safetensors
-```
-
-Images will be output to `outputs/<MODEL>/<PROMPT>_<DATETIME>_<POSTFIX>` by default.
-To add a postfix to the output directory, add `--postfix <my_postfix>`. For example,
-```sh
-python3 sd3_infer.py --prompt path/to/my_prompts.txt --postfix "steps100" --steps 100
-```
-
-To change the resolution of the generated image, add `--width <WIDTH> --height <HEIGHT>`.
-
-Optionally, use [Skip Layer Guidance](https://github.com/comfyanonymous/ComfyUI/pull/5404) for potentially better struture and anatomy coherency from SD3.5-Medium.
-```sh
-python3 sd3_infer.py --prompt path/to/my_prompts.txt --model models/sd3.5_medium.safetensors --skip_layer_cfg True
-```
-
-### ControlNets
-
-To use SD3.5 Large ControlNets, additionally download your chosen ControlNet model from the [model repository](https://huggingface.co/stabilityai/stable-diffusion-3.5-controlnets), then run inference, like so:
-- Blur:
-```sh
-python sd3_infer.py --model models/sd3.5_large.safetensors --controlnet_ckpt models/sd3.5_large_controlnet_blur.safetensors --controlnet_cond_image inputs/blur.png --prompt "generated ai art, a tiny, lost rubber ducky in an action shot close-up, surfing the humongous waves, inside the tube, in the style of Kelly Slater"
-```
-- Canny:
-```sh
-python sd3_infer.py --model models/sd3.5_large.safetensors --controlnet_ckpt models/sd3.5_large_controlnet_canny.safetensors --controlnet_cond_image inputs/canny.png --prompt "A Night time photo taken by Leica M11, portrait of a Japanese woman in a kimono, looking at the camera, Cherry blossoms"
-```
-- Depth:
-```sh
-python sd3_infer.py --model models/sd3.5_large.safetensors --controlnet_ckpt models/sd3.5_large_controlnet_depth.safetensors --controlnet_cond_image inputs/depth.png --prompt "photo of woman, presumably in her mid-thirties, striking a balanced yoga pose on a rocky outcrop during dusk or dawn. She wears a light gray t-shirt and dark leggings. Her pose is dynamic, with one leg extended backward and the other bent at the knee, holding the moon close to her hand."
-```
-
-For details on preprocessing for each of the ControlNets, and examples, please review the [model card](https://huggingface.co/stabilityai/stable-diffusion-3.5-controlnets).
 
 ## File Guide
 
@@ -113,10 +59,6 @@ The code included here originates from:
 - Some unique code for this reference repo written by Alex Goodwin and Vikram Voleti for Stability AI
 - Some code from ComfyUI internal Stability implementation of SD3 (for some code corrections and handlers)
 - HuggingFace and upstream providers (for sections of CLIP/T5 code)
-
-## Legal
-
-Check the LICENSE-CODE file.
 
 ### Note
 
