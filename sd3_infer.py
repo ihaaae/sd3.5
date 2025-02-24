@@ -539,8 +539,6 @@ def main(
     _cfg = config.get("cfg", 5)
     _sampler = config.get("sampler", "dpmpp_2m")
 
-    skip_layer_config = {}
-
     inferencer = SD3Inferencer()
 
     inferencer.load(
