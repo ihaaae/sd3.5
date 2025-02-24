@@ -549,16 +549,11 @@ CONFIGS = {
 
 @torch.no_grad()
 def main(
-    prompt=PROMPT,
     model=MODEL,
     out_dir=OUTDIR,
     postfix=None,
     seed=SEED,
     seed_type=SEEDTYPE,
-    sampler=None,
-    steps=None,
-    cfg=None,
-    shift=None,
     width=WIDTH,
     height=HEIGHT,
     controlnet_ckpt=None,
@@ -566,11 +561,9 @@ def main(
     vae=VAEFile,
     init_image=INIT_IMAGE,
     denoise=DENOISE,
-    skip_layer_cfg=False,
     verbose=False,
     model_folder=MODEL_FOLDER,
     text_encoder_device="cpu",
-    **kwargs,
 ):
     os.environ["HF_HOME"] = "/path/to/your/cache/dir"
     os.environ["HF_ENDPOINT"] = "https://hf-mirror.com" 
