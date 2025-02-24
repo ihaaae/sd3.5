@@ -562,7 +562,7 @@ def main(
         "lexica",
     )
 
-    os.makedirs(out_dir, exist_ok=False)
+    os.makedirs(out_dir, exist_ok=True)
 
     inferencer.gen_image(
         prompts,
