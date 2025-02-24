@@ -551,17 +551,13 @@ CONFIGS = {
 def main(
     model=MODEL,
     out_dir=OUTDIR,
-    postfix=None,
     seed=SEED,
     seed_type=SEEDTYPE,
     width=WIDTH,
     height=HEIGHT,
-    controlnet_ckpt=None,
     controlnet_cond_image=None,
-    vae=VAEFile,
     init_image=INIT_IMAGE,
     denoise=DENOISE,
-    verbose=False,
     model_folder=MODEL_FOLDER,
     text_encoder_device="cpu",
 ):
