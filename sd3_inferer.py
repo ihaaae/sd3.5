@@ -371,6 +371,46 @@ class SD3Inferencer:
         self.sd3.model = self.sd3.model.cpu()
         self.print("Sampling done")
         return latent
+    
+    def straight_do_sampling(
+        self,
+        latent,
+        seed,
+        conditioning,
+        neg_cond,
+        steps,
+        cfg_scale,
+        controlnet_cond=None,
+        denoise=1.0,
+        skip_layer_config={},
+    ) -> torch.Tensor:
+        # print("Sampling...")
+        latent = latent.half().cuda()
+        self.sd3.model = self.sd3.model.cuda()
+        noise = self.get_noise(seed, latent).cuda()
+        sigmas = self.get_sigmas(self.sd3.model.model_sampling, steps).cuda()
+        sigmas = sigmas[int(steps * (1 - denoise)) :]
+        conditioning = self.fix_cond(conditioning)
+        neg_cond = self.fix_cond(neg_cond)
+        extra_args = {
+            "cond": conditioning,
+            "uncond": neg_cond,
+            "cond_scale": cfg_scale,
+            "controlnet_cond": controlnet_cond,
+        }
+        noise_scaled = self.sd3.model.model_sampling.noise_scaling(
+            sigmas[0], noise, latent, self.max_denoise(sigmas)
+        )
+        from sd3_impls import sample_dpmpp_2m
+        latent = sample_dpmpp_2m(
+            CFGDenoiser(self.sd3.model, steps, skip_layer_config),
+            noise_scaled,
+            sigmas,
+            extra_args=extra_args,
+        )
+        latent = SD3LatentFormat().process_out(latent)
+        self.sd3.model = self.sd3.model.cpu()
+        return latent
 
     def vae_encode(
         self, image, using_2b_controlnet: bool = False, controlnet_type: int = 0
@@ -487,10 +527,9 @@ class SD3Inferencer:
         prompt,
         steps=STEPS,
         cfg_scale=CFG_SCALE,
-        sampler=SAMPLER,
         width=WIDTH,
         height=HEIGHT,
-        seed=SEED,
+        seed=SEED
     ):
         latent = self.get_empty_latent(1, width, height, seed, "cuda")
 
@@ -499,14 +538,12 @@ class SD3Inferencer:
 
         seed_num = torch.randint(0, 100000, (1,)).item()
 
-        controlnet_cond = None
-        sampled_latent = self.do_sampling(latent,
-                                        seed_num,
-                                        conditioning,
-                                        neg_cond,
-                                        steps,
-                                        cfg_scale,
-                                        sampler)
+        sampled_latent = self.straight_do_sampling(latent,
+                                                    seed_num,
+                                                    conditioning,
+                                                    neg_cond,
+                                                    steps,
+                                                    cfg_scale)
 
         image = self.vae_decode(sampled_latent)
 
