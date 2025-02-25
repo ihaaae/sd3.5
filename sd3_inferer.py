@@ -480,6 +480,37 @@ class SD3Inferencer:
         )
         image = self.vae_decode(sampled_latent)
         return image
+    
+    # simplified gen_image with a fixed seed_type as "rand", no init_image and controlnet
+    def s_gen_image(
+        self,
+        prompt,
+        steps=STEPS,
+        cfg_scale=CFG_SCALE,
+        sampler=SAMPLER,
+        width=WIDTH,
+        height=HEIGHT,
+        seed=SEED,
+    ):
+        latent = self.get_empty_latent(1, width, height, seed, "cuda")
+
+        neg_cond = self.get_cond("")
+        conditioning = self.get_cond(prompt)
+
+        seed_num = torch.randint(0, 100000, (1,)).item()
+
+        controlnet_cond = None
+        sampled_latent = self.do_sampling(latent,
+                                        seed_num,
+                                        conditioning,
+                                        neg_cond,
+                                        steps,
+                                        cfg_scale,
+                                        sampler)
+
+        image = self.vae_decode(sampled_latent)
+
+        return image
 
 CONFIGS = {
     "sd3.5_medium": {
