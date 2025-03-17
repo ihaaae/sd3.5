@@ -525,20 +525,19 @@ class SD3Inferencer:
     def s_gen_image(
         self,
         prompt,
+        init_latent,
+        seed_num,
         steps=STEPS,
         cfg_scale=CFG_SCALE,
-        width=WIDTH,
-        height=HEIGHT,
-        seed=SEED
     ):
-        latent = self.get_empty_latent(1, width, height, seed, "cuda")
+        # latent = self.get_empty_latent(batch_size=1, width=width, height=height, seed=seed, device="cuda")
 
         neg_cond = self.get_cond("")
         conditioning = self.get_cond(prompt)
 
-        seed_num = torch.randint(0, 100000, (1,)).item()
+        # seed_num = torch.randint(0, 100000, (1,)).item()
 
-        sampled_latent = self.straight_do_sampling(latent,
+        sampled_latent = self.straight_do_sampling(init_latent,
                                                     seed_num,
                                                     conditioning,
                                                     neg_cond,
