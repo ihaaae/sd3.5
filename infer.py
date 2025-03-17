@@ -55,10 +55,15 @@ prompts = ["photo of group 19th century cult cultists in the dark forest by Dian
             "Pepe the Frog in the parade, Socialist realism, North Korea propaganda style"]
 
 # Actual model file path
-MODEL = "/root/autodl-tmp/AI-ModelScope/stable-diffusion-3___5-large/sd3.5_large.safetensors"
+MODEL = "/home/lxc/cache/AI-ModelScope/stable-diffusion-3___5-large/sd3.5_large.safetensors"
 # TextEncoder MODEL FOLDER
-MODEL_FOLDER = "/root/autodl-tmp/AI-ModelScope/stable-diffusion-3___5-large/text_encoders"
-OUTDIR = "/root/sd3.5/outputs/lexica"
+MODEL_FOLDER = "/home/lxc/cache/AI-ModelScope/stable-diffusion-3___5-large/text_encoders"
+
+OUTDIR = "/home/lxc/sd3.5/outputs/lexica"
+
+WIDTH = 1024
+HEIGHT = 1024
+SEED = 23
 
 
 if __name__ == "__main__":
@@ -72,11 +77,15 @@ if __name__ == "__main__":
 
     with torch.no_grad():
         inferencer = SD3Inferencer()
-        inferencer.load(MODEL, MODEL_FOLDER, _shift, text_encoder_device="cpu")
+        inferencer.load(MODEL, MODEL_FOLDER, _shift, text_encoder_device="cuda")
         pbar = tqdm(enumerate(prompts), total=len(prompts), position=0, leave=True)
         for i, prompt in pbar:
             for j in range(10):
-                image = inferencer.gen_image(prompt, _steps, _cfg, _sampler)
+                init_latent = get_empty_latent(1, WIDTH, HEIGHT, SEED, "cuda")
+                seed_num = torch.randint(0, 100000, (1,)).item()
+
+                image = inferencer.s_gen_image(prompt, init_latent, seed_num, _steps, _cfg)
+
                 save_path = os.path.join(OUTDIR, f"{i+51}-{j+1}.png")
                 image.save(save_path)
         print("Done")
