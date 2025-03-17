@@ -65,6 +65,13 @@ WIDTH = 1024
 HEIGHT = 1024
 SEED = 23
 
+def get_empty_latent(batch_size, width, height, seed, device):
+    shape = (batch_size, 16, height // 8, width // 8)
+    latents = torch.zeros(shape, device=device)
+    for i in range(shape[0]):
+        prng = torch.Generator(device=device).manual_seed(int(seed + i))
+        latents[i] = torch.randn(shape[1:], generator=prng, device=device)
+    return latents
 
 if __name__ == "__main__":
     config = CONFIGS["sd3.5_large"]
