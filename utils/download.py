@@ -1,7 +1,7 @@
 from modelscope import snapshot_download
 
 # Specify the directory where you want the model to be downloaded
-download_dir = "/root/autodl-tmp"
+download_dir = "/home/lxc/cache"
 
 # Download the model to the specified directory
 model_id = snapshot_download('AI-ModelScope/stable-diffusion-3.5-large', cache_dir=download_dir)

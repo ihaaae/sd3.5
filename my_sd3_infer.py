@@ -88,6 +88,7 @@ if __name__ == "__main__":
         pbar = tqdm(enumerate(prompts), total=len(prompts), position=0, leave=True)
         for i, prompt in pbar:
             for j in range(10):
+                prompt = "attractive justin bieber as a god. highly detailed painting by gaston bussiere, craig mullins, j. c. leyendecker 8 k"
                 init_latent = get_empty_latent(1, WIDTH, HEIGHT, SEED, "cuda")
                 seed_num = torch.randint(0, 100000, (1,)).item()
 

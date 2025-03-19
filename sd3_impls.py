@@ -357,7 +357,7 @@ def sample_dpmpp_2m(model, x, sigmas, extra_args=None):
     sigma_fn = lambda t: t.neg().exp()
     t_fn = lambda sigma: sigma.log().neg()
     old_denoised = None
-    for i in tqdm(range(len(sigmas) - 1)):
+    for i in tqdm(range(len(sigmas) - 1), leave=False):
         denoised = model(x, sigmas[i] * s_in, **extra_args)
         t, t_next = t_fn(sigmas[i]), t_fn(sigmas[i + 1])
         h = t_next - t

@@ -12,7 +12,7 @@ import math
 import numpy as np
 import sd3_impls
 import torch
-from other_impls import SD3Tokenizer, SDClipModel, SDXLClipG, T5XXLModel
+from sd3_other_impls import SD3Tokenizer, SDClipModel, SDXLClipG, T5XXLModel
 from PIL import Image
 from safetensors import safe_open
 from sd3_impls import (
@@ -120,7 +120,6 @@ T5_CONFIG = {
 
 class T5XXL:
     def __init__(self, model_folder: str, device: str = "cpu", dtype=torch.float32):
-        print(model_folder)
         with safe_open(
             f"{model_folder}/t5xxl_fp16.safetensors", framework="pt", device="cpu"
         ) as f:
@@ -272,7 +271,7 @@ class SD3Inferencer:
         print("Models loaded.")
 
     def get_empty_latent(self, batch_size, width, height, seed, device="cuda"):
-        self.print("Prep an empty latent...")
+        # print("Prep an empty latent...")
         shape = (batch_size, 16, height // 8, width // 8)
         latents = torch.zeros(shape, device=device)
         for i in range(shape[0]):
@@ -293,9 +292,9 @@ class SD3Inferencer:
 
     def get_noise(self, seed, latent):
         generator = torch.manual_seed(seed)
-        self.print(
-            f"dtype = {latent.dtype}, layout = {latent.layout}, device = {latent.device}"
-        )
+        # print(
+        #     f"dtype = {latent.dtype}, layout = {latent.layout}, device = {latent.device}"
+        # )
         return torch.randn(
             latent.size(),
             dtype=torch.float32,
@@ -305,7 +304,7 @@ class SD3Inferencer:
         ).to(latent.dtype)
 
     def get_cond(self, prompt):
-        self.print("Encode prompt...")
+        # print("Encode prompt...")
         tokens = self.tokenizer.tokenize_with_weights(prompt)
         l_out, l_pooled = self.clip_l.model.encode_token_weights(tokens["l"])
         g_out, g_pooled = self.clip_g.model.encode_token_weights(tokens["g"])
@@ -338,7 +337,7 @@ class SD3Inferencer:
         denoise=1.0,
         skip_layer_config={},
     ) -> torch.Tensor:
-        self.print("Sampling...")
+        # print("Sampling...")
         latent = latent.half().cuda()
         self.sd3.model = self.sd3.model.cuda()
         noise = self.get_noise(seed, latent).cuda()
@@ -415,7 +414,7 @@ class SD3Inferencer:
     def vae_encode(
         self, image, using_2b_controlnet: bool = False, controlnet_type: int = 0
     ) -> torch.Tensor:
-        self.print("Encoding image to latent...")
+        # print("Encoding image to latent...")
         image = image.convert("RGB")
         image_np = np.array(image).astype(np.float32) / 255.0
         image_np = np.moveaxis(image_np, 2, 0)
@@ -431,7 +430,7 @@ class SD3Inferencer:
         self.vae.model = self.vae.model.cuda()
         latent = self.vae.model.encode(image_torch).cpu()
         self.vae.model = self.vae.model.cpu()
-        self.print("Encoded")
+        # print("Encoded")
         return latent
 
     def vae_encode_tensor(self, tensor: torch.Tensor) -> torch.Tensor:
@@ -440,7 +439,7 @@ class SD3Inferencer:
         return latent
 
     def vae_decode(self, latent) -> Image.Image:
-        self.print("Decoding latent to image...")
+        # print("Decoding latent to image...")
         latent = latent.cuda()
         self.vae.model = self.vae.model.cuda()
         image = self.vae.model.decode(latent)
@@ -450,7 +449,7 @@ class SD3Inferencer:
         decoded_np = 255.0 * np.moveaxis(image.cpu().numpy(), 0, 2)
         decoded_np = decoded_np.astype(np.uint8)
         out_image = Image.fromarray(decoded_np)
-        self.print("Decoded")
+        # print("Decoded")
         return out_image
 
     def _image_to_latent(
