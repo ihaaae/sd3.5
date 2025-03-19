@@ -1,5 +1,5 @@
 import torch
-from model import convert_weights, VisionTransformer, Transformer, LayerNorm
+from my_ocl_model import convert_weights, VisionTransformer, Transformer, LayerNorm
 from typing import Tuple, Union
 from torch import nn
 import numpy as np
@@ -146,7 +146,7 @@ prompt = "Hello World!"
 device = "cuda" if torch.cuda.is_available() else "cpu"
 
 
-from other_impls import SD3Tokenizer
+from sd3_other_impls import SD3Tokenizer
 
 with torch.no_grad():
     tokenizer = SD3Tokenizer()

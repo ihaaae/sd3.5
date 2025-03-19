@@ -8,7 +8,7 @@ import torch
 import torch.nn as nn
 from einops import rearrange, repeat
 
-from other_impls import Mlp, attention
+from sd3_other_impls import Mlp, attention
 
 
 class PatchEmbed(nn.Module):

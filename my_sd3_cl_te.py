@@ -39,7 +39,7 @@ from safetensors import safe_open
 
 MODEL_FOLDER = "/home/lxc/cache/AI-ModelScope/stable-diffusion-3___5-large/text_encoders"
 
-from other_impls import SD3Tokenizer, SDClipModel
+from sd3_other_impls import SD3Tokenizer, SDClipModel
 
 prompt = "attractive justin bieber as a god. highly detailed painting by gaston bussiere, craig mullins, j. c. leyendecker 8 k"
 

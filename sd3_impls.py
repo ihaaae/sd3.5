@@ -11,8 +11,8 @@ from tqdm import tqdm
 import numpy as np
 import torch.nn as nn
 
-from dit_embedder import ControlNetEmbedder
-from mmditx import MMDiTX
+from sd3_dit_embedder import ControlNetEmbedder
+from sd3_mmditx import MMDiTX
 from typing import Tuple
 
 #################################################################################################
